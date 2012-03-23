@@ -1,0 +1,38 @@
+---
+abstract: 'map through multiple arrays at once'
+author:
+  - 'Toby Inkster <tobyink@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0.61
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.02'
+keywords: []
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+module_name: List::MapMulti
+name: List-MapMulti
+no_index:
+  directory:
+    - examples
+    - inc
+    - t
+    - xt
+recommends:
+  autovivification: 0
+requires:
+  Carp: 0
+  Exporter: 0
+  base: 0
+  perl: 5.6.0
+  strict: 0
+  warnings: 0
+resources:
+  bugtracker: http://rt.cpan.org/Dist/Display.html?Queue=List-MapMulti
+  homepage: https://metacpan.org/release/List-MapMulti
+  license: http://dev.perl.org/licenses/
+version: 0.001
