@@ -8,7 +8,7 @@ no warnings qw/once void/;
 BEGIN
 {
 	$List::MapMulti::AUTHORITY = 'cpan:TOBYINK';
-	$List::MapMulti::VERSION   = '0.002';
+	$List::MapMulti::VERSION   = '0.003';
 	
 	# use this module if it's installed.
 	# don't panic if it's unavailable.
@@ -30,7 +30,7 @@ BEGIN {
 		'standard' => \@EXPORT,
 		'default'  => \@EXPORT,
 		'nothing'  => [],
-		);
+	);
 }
 
 sub iterator_multi
@@ -46,11 +46,20 @@ sub map_multi (&@)
 	if (@arrays)
 	{
 		my $iter = iterator_multi(@arrays);
+		
 		local $_ = $iter;
+
+		# Localise $a, $b
+		my ( $caller_a, $caller_b ) = do {
+			my $pkg = caller;
+			no strict 'refs';
+			\*{$pkg.'::a'}, \*{$pkg.'::b'};
+		};
 		
 		while (my @values = $iter->())
 		{
-			#$_ = \@values;
+			no strict 'refs';
+			(*$caller_a, *$caller_b) = \( @values[0, 1] );			
 			push @results, $code->(@values);
 		}
 	}
@@ -71,12 +80,12 @@ use Carp qw/carp croak/;
 use overload
 	'&{}' => sub { my $self = shift; sub { $self->next } },
 	'@{}' => sub { my $self = shift; [ $self->current ] },
-	;
+;
 
 BEGIN
 {
 	$List::MapMulti::Iterator::AUTHORITY = 'cpan:TOBYINK';
-	$List::MapMulti::Iterator::VERSION   = '0.002';
+	$List::MapMulti::Iterator::VERSION   = '0.003';
 	
 	autovivification->unimport('warn');
 }
@@ -87,13 +96,20 @@ sub new
 	
 	_array_check(\@arrays);
 	
-	bless {
+	my $self = bless {
 		arrays          => \@arrays,
 		lengths         => [ map { ;scalar @$_ } @arrays ],
 		next_indices    => [ map { ;0 } @arrays ],
 		current_indices => undef,
 		last            => 0,
 	}, $class;
+	
+	for my $arr (@arrays)
+	{
+		$self->{'last'}++ unless scalar @$arr;
+	}
+	
+	return $self;
 }
 
 sub _array_check
@@ -245,6 +261,11 @@ loop.
 Note that within the codeblock, the items from each list are available
 as C<< $_[0] >>, C<< $_[1] >>, etc. The C<< $_ >> variable is set to a
 List::MapMulti::Iterator object which is used internally by C<map_multi>.
+
+For the special (but common) case where you're just mapping over two lists,
+C<< $a >> and C<< $b >> are aliased to C<< $_[0] >> and C<< $_[1] >>. You
+may need to do C<< our ($a, $b) >> to suppress warnings about variables
+being used only once.
 
 C<mapm> is exported by default, but C<map_multi> needs to be requested
 explicitly.

@@ -42,6 +42,10 @@ DESCRIPTION
     as $_[0], $_[1], etc. The $_ variable is set to a
     List::MapMulti::Iterator object which is used internally by "map_multi".
 
+    For the special (but common) case where you're just mapping over two
+    lists, $a and $b are aliased to $_[0] and $_[1]. You may need to do "our
+    ($a, $b)" to suppress warnings about variables being used only once.
+
     "mapm" is exported by default, but "map_multi" needs to be requested
     explicitly.
 

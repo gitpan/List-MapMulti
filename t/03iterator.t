@@ -1,4 +1,7 @@
+use strict;
+use warnings FATAL => 'all';
 use Test::More tests => 2;
+
 use List::MapMulti 'iterator_multi';
 
 my @numbers = (2..10, qw/Jack Queen King Ace/);
@@ -11,12 +14,12 @@ while (my ($n, $s) = $iter->())
 {
 	$got .= "$n of $s|";
 
-	if ($n==6 and $s eq 'Hearts')
+	if ($n eq 6 and $s eq 'Hearts')
 	{
 		is_deeply(
 			[$iter->current_indices],
 			[4, 2],
-			);
+		);
 	}
 
 	if ($n eq 'Queen')
@@ -31,6 +34,23 @@ while (my ($n, $s) = $iter->())
 }
 
 is($got, $expected);
+
+=head1 PURPOSE
+
+Checks that C<iterator_multi> works.
+
+=head1 AUTHOR
+
+Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+
+=head1 COPYRIGHT AND LICENCE
+
+This software is copyright (c) 2012 by Toby Inkster.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
 
 __DATA__
 2 of Clubs
