@@ -25,31 +25,31 @@ DESCRIPTION
        }
      }
 
-    There are two different solutions available to you: "map_multi" (which
-    has an alias "mapm") and "iterator_multi".
+    There are two different solutions available to you: `map_multi` (which has
+    an alias `mapm`) and `iterator_multi`.
 
-    The only thing this module exports by default is "mapm".
+    The only thing this module exports by default is `mapm`.
 
-  "map_multi { BLOCK } \@list1, \@list2 ..."
-    (Or "mapm"!)
+  `map_multi { BLOCK } \@list1, \@list2 ...`
+    (Or `mapm`!)
 
     Calls the codeblock with every possible combination of values from each
-    list. If you imagine it as calling within a set of nested loops, then
-    the final list is the innermost loop; and the first loop is the
-    outermost loop.
+    list. If you imagine it as calling within a set of nested loops, then the
+    final list is the innermost loop; and the first loop is the outermost
+    loop.
 
-    Note that within the codeblock, the items from each list are available
-    as $_[0], $_[1], etc. The $_ variable is set to a
-    List::MapMulti::Iterator object which is used internally by "map_multi".
+    Note that within the codeblock, the items from each list are available as
+    $_[0], $_[1], etc. The $_ variable is set to a List::MapMulti::Iterator
+    object which is used internally by `map_multi`.
 
     For the special (but common) case where you're just mapping over two
-    lists, $a and $b are aliased to $_[0] and $_[1]. You may need to do "our
-    ($a, $b)" to suppress warnings about variables being used only once.
+    lists, $a and $b are aliased to $_[0] and $_[1]. You may need to do `our
+    ($a, $b)` to suppress warnings about variables being used only once.
 
-    "mapm" is exported by default, but "map_multi" needs to be requested
+    `mapm` is exported by default, but `map_multi` needs to be requested
     explicitly.
 
-  "iterator_multi(\@list1, \@list2, ...)"
+  `iterator_multi(\@list1, \@list2, ...)`
     This allows constructions like this:
 
      my $iterator = iterator_multi(\@numbers, \@suits);
@@ -58,41 +58,41 @@ DESCRIPTION
        say "$number of $suit";
      }
 
-    Although "map_multi" is arguably a nicer syntax, the iterator provides
-    you with an important advantage: you don't have to iterate through every
-    possible combination. You can control flow using, say, "next", "last" or
-    "redo".
+    Although `map_multi` is arguably a nicer syntax, the iterator provides you
+    with an important advantage: you don't have to iterate through every
+    possible combination. You can control flow using, say, `next`, `last` or
+    `redo`.
 
   List::MapMulti::Iterator
     This is advanced fu that you probably don't need to know about.
 
     While iterators act like coderefs (you get the next set of values via
-    "$iterator->()"), internally they are blessed objects that overload
-    "&{}". As they are objects, they are able to provide some methods.
+    `$iterator->()`), internally they are blessed objects that overload `&{}`.
+    As they are objects, they are able to provide some methods.
 
     These are the methods they provide:
 
-   "new(\@list1, \@list2, ...)"
-    Constructor. The "iterator_multi" function is just a shortcut for this.
+   `new(\@list1, \@list2, ...)`
+    Constructor. The `iterator_multi` function is just a shortcut for this.
 
-   "next"
-    Calling "$iterator->next" is exactly equivalent to calling
-    "$iterator->()".
+   `next`
+    Calling `$iterator->next` is exactly equivalent to calling
+    `$iterator->()`.
 
-   "current"
-    Returns the same thing as the previous call to "next" (unless the
-    original arrays have changed since then).
+   `current`
+    Returns the same thing as the previous call to `next` (unless the original
+    arrays have changed since then).
 
     This can also be used as a setter, in which case it writes back to the
     appropriate slots in the original arrays.
 
-   "next_indices"
+   `next_indices`
     Returns the array indices that will be used to read from the original
-    arrays next time "next" is called. Again, this can be used as a setter.
+    arrays next time `next` is called. Again, this can be used as a setter.
 
-   "current_indices"
+   `current_indices`
     Returns the array indices that was used to read from the original arrays
-    last time "next" was called.
+    last time `next` was called.
 
 BUGS
     Please report any bugs to
@@ -107,8 +107,8 @@ AUTHOR
 COPYRIGHT AND LICENCE
     This software is copyright (c) 2012 by Toby Inkster.
 
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
+    This is free software; you can redistribute it and/or modify it under the
+    same terms as the Perl 5 programming language system itself.
 
 DISCLAIMER OF WARRANTIES
     THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
